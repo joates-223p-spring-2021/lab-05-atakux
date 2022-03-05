@@ -16,9 +16,9 @@ def numWordsSpoken(candidate, word):
     spoken by a given speaker"""
 
     if candidate in "OBAMA":
-        return obamaSpeaks[word]
+        return obamaDict[word]
     elif candidate in "ROMNEY":
-        return romneySpeaks[word]
+        return romneyDict[word]
     else:
         return 0
 
@@ -38,49 +38,49 @@ stopWordsFile.close()
 
 
 #empty dictionaries
-obamaSpeaks = {}
-romneySpeaks = {}
-lehrerSpeaks = {}
+obamaDict = {} 
+romneyDict = {}
+lehrerDict = {}
 
 #empty lists
 obamaLists = []
 romneyLists = []
 
 #initialize bools to false
-obamaFound = False
-romneyFound = False
-lehrerFound = False
+obamaFound = {"PRESIDENT", "BARACK", "OBAMA:"}
+romneyFound = {"MR.", "ROMNEY:"}
+lehrerFound = {"MR.", "JIM", "LEHRER:"}
+personSpeaking = ""
 
-
-#function to add passed words to obamaSpeaks dict{}
+#function to add passed words to obamaDict dict{}
 def obamaDictAdd(w):
     #if the word was already found in the dictionary,
     #increase its count by 1
-    if w in obamaSpeaks:
-        obamaSpeaks[w] += 1
+    if w in obamaDict:
+        obamaDict[w] += 1
     #if the word wasnt found, set its count to 1
     else:
-        obamaSpeaks[w] = 1
+        obamaDict[w] = 1
 
-#function to add passed words to romneySpeaks dict{}
+#function to add passed words to romneyDict dict{}
 def romneyDictAdd(w):
     #if the word was already found in the dictionary,
     #increase its count by 1
-    if w in romneySpeaks:
-        romneySpeaks[w] += 1
+    if w in romneyDict:
+        romneyDict[w] += 1
     #if the word wasnt found, set its count to 1
     else:
-        romneySpeaks[w] = 1
+        romneyDict[w] = 1
 
-#function to add passed words to lehrerSpeaks dict{}
+#function to add passed words to
 def lehrerDictAdd(w):
     #if the word was already found in the dictionary,
     #increase its count by 1
-    if w in lehrerSpeaks:
-            lehrerSpeaks[w] += 1
+    if w in lehrerDict:
+           lehrerDict[w] += 1
     #if the word wasnt found, set its count to 1
     else:
-        lehrerSpeaks[w] = 1
+       lehrerDict[w] = 1
 
 #parsing thru the text and changing the bool values 
 #depending on who is found to be speaking
@@ -88,39 +88,24 @@ for w in debateString.split():
 
     #obama was found to be speaking, so its bool is set
     #to true and all others are set to false
-    if "OBAMA:" in w:
-        obamaFound = True
-        romneyFound = False
-        lehrerFound = False 
+    if w in obamaFound:
+        personSpeaking =  "obama"
         #keep parsing after we set obamas bool to true
         continue
     #romney was found to be speaking, so its bool is set
     #to true and all others are set to false
-    elif "ROMNEY:" in w:
-        obamaFound = False
-        romneyFound = True
-        lehrerFound = False
+    elif w in romneyFound:
+        personSpeaking = "romney"
         #keep parsing after we set romneys bool to true
         continue
     #lehrer was found to be speaking, so its bool is set
     #to true and all others are set to false
-    elif "LEHRER:" in w:
-        obamaFound = False
-        romneyFound = False
-        lehrerFound = True
+    elif w in lehrerFound:
+        personSpeaking = "lehrer"
         #keep parsing after we set lehrers bool to true
         continue
 
 
-
-
-    #disregard any extra wording around each speakers tag
-    if w in "PRESIDENT BARACK":
-        continue
-    if w in "MR.":
-        continue
-    if w in "JIM":
-        continue
 
     #convert to lowercase for more parsing
     w = w.lower()
@@ -141,15 +126,15 @@ for w in debateString.split():
 
     #when obamas bool is true, obamas function is called
     #in order to add to its corresponding dictionary
-    if obamaFound:
+    if personSpeaking == "obama":
         obamaDictAdd(w)
     #when romneys bool is true, romneys function is called
     #in order to add to its corresponding dictionary
-    if romneyFound:
+    if personSpeaking == "romney":
         romneyDictAdd(w)
     #when lehrers bool is true, lehrers function is called
     #in order to add to its corresponding dictionary
-    if lehrerFound:
+    if personSpeaking == "lehrer":
         lehrerDictAdd(w)
 
 
@@ -159,9 +144,9 @@ for w in debateString.split():
 
 #apppend the dictionary items to each list in value, key order
 #for printing and sorting purposes
-for key, val in obamaSpeaks.items():
+for key, val in obamaDict.items():
     obamaLists.append((val, key))
-for key, val in romneySpeaks.items():
+for key, val in romneyDict.items():
     romneyLists.append((val, key))
 
 
