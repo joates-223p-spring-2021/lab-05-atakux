@@ -82,27 +82,28 @@ def lehrerDictAdd(w):
     else:
        lehrerDict[w] = 1
 
-#parsing thru the text and changing the bool values 
-#depending on who is found to be speaking
+#parsing thru the text while flagging who is speaking
+#and calling their respective dictAdd functions to add
+#to their proper dictionaries
 for w in debateString.split():
 
-    #obama was found to be speaking, so its bool is set
-    #to true and all others are set to false
+    #obama was found to be speaking, so personSpeaking
+    #is set to obama
     if w in obamaFound:
         personSpeaking =  "obama"
-        #keep parsing after we set obamas bool to true
+        #keep parsing after we set obama to be speaking
         continue
-    #romney was found to be speaking, so its bool is set
-    #to true and all others are set to false
+    #romeny was found to be speaking, so personSpeaking
+    #is set to romney
     elif w in romneyFound:
         personSpeaking = "romney"
-        #keep parsing after we set romneys bool to true
+        #keep parsing after we set romney to be speaking
         continue
-    #lehrer was found to be speaking, so its bool is set
-    #to true and all others are set to false
+    #lehrer was found to be speaking, so personSpeaking
+    #is set to lehrer
     elif w in lehrerFound:
         personSpeaking = "lehrer"
-        #keep parsing after we set lehrers bool to true
+        #keep parsing after we set lehrer to be speaking
         continue
 
 
@@ -124,16 +125,12 @@ for w in debateString.split():
 
 
 
-    #when obamas bool is true, obamas function is called
-    #in order to add to its corresponding dictionary
+    #depending on who is speaking, their respective dictAdd 
+    #is called to add to their proper dictionaries
     if personSpeaking == "obama":
         obamaDictAdd(w)
-    #when romneys bool is true, romneys function is called
-    #in order to add to its corresponding dictionary
     if personSpeaking == "romney":
         romneyDictAdd(w)
-    #when lehrers bool is true, lehrers function is called
-    #in order to add to its corresponding dictionary
     if personSpeaking == "lehrer":
         lehrerDictAdd(w)
 
